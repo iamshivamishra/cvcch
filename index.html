@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<div style="font-family: Arial, sans-serif; padding: 20px; background: #fff; text-align: center;">
+  <!-- Heading -->
+  <div style="text-align: center; margin: 20px 0;">
+  <img 
+    src="https://dukaan.b-cdn.net/200x200/webp/media/e2c1a6b1-3506-4607-b9ea-223d0b543651.png" 
+    alt="Explore Beats" 
+    style="
+      max-width: 100%;
+      height: auto;
+      display: inline-block;
+    "
+  />
+</div>
+
+
+  <!-- Search Box + Dropdown Container -->
+  <div 
+    style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; max-width: 600px; margin: 0 auto; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,0.1);"
+  >
+    <!-- Search Input -->
+    <input
+      type="search"
+      id="searchInput"
+      placeholder="Search top beats"
+      style="flex: 1 1 250px; min-width: 200px; padding: 10px 12px; border: 1px solid #ccc; border-radius: 6px; outline: none; font-size: 1rem; transition: border-color 0.3s;"
+      onfocus="this.style.borderColor='#000'"
+      onblur="this.style.borderColor='#ccc'"
+    />
+
+    <!-- Dropdown -->
+    <div style="position: relative; flex: 0 0 auto;">
+      <button
+        id="dropdownBtn"
+        style="padding: 10px 14px; border: 1px solid #ccc; border-radius: 6px; background: #fff; cursor: pointer; font-size: 1rem; display: flex; align-items: center; gap: 6px;"
+        onclick="toggleDropdown()"
+      >
+        <span id="selectedOption">General</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7.01744 10.398C6.91269 10.3985 6.8089 10.378 6.71215 10.3379C6.61541 10.2977 6.52766 10.2386 6.45405 10.1641L1.13907 4.84913C1.03306 4.69404 0.985221 4.5065 1.00399 4.31958C1.02276 4.13266 1.10693 3.95838 1.24166 3.82747C1.37639 3.69655 1.55301 3.61742 1.74039 3.60402C1.92777 3.59062 2.11386 3.64382 2.26584 3.75424L7.01744 8.47394L11.769 3.75424C11.9189 3.65709 12.097 3.61306 12.2748 3.62921C12.4527 3.64535 12.6199 3.72073 12.7498 3.84328C12.8797 3.96582 12.9647 4.12842 12.9912 4.30502C13.0177 4.48162 12.9841 4.662 12.8958 4.81724L7.58083 10.1322C7.50996 10.2125 7.42344 10.2775 7.32656 10.3232C7.22968 10.3689 7.12449 10.3944 7.01744 10.398Z" fill="currentColor"/>
+        </svg>
+      </button>
+
+      <!-- Dropdown Menu -->
+      <ul
+        id="dropdownMenu"
+        style="position: absolute; top: 105%; left: 0; list-style: none; padding: 0; margin: 5px 0 0 0; background: #fff; border: 1px solid #ccc; border-radius: 6px; box-shadow: 0 3px 6px rgba(0,0,0,0.1); width: 150px; display: none; z-index: 10;"
+      >
+        <li style="padding: 8px 12px; cursor: pointer;" onclick="selectOption('General')">General</li>
+        <li style="padding: 8px 12px; cursor: pointer;" onclick="selectOption('Hip-Hop')">Hip-Hop</li>
+        <li style="padding: 8px 12px; cursor: pointer;" onclick="selectOption('Trap')">Trap</li>
+        <li style="padding: 8px 12px; cursor: pointer;" onclick="selectOption('R&B')">R&amp;B</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<h1 
+  style="
+    text-align: center;
+    margin: 20px 0;
+    font-family: 'Arial', sans-serif;
+    font-size: 2.5rem;      /* base desktop size */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  "
+>
+  <span style="color: #000;">Explore</span> 
+  <span style="
+    font-family: 'Arial', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #ff4c00, #ff9a3c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  ">Beats</span>
+</h1>
+
+<script>
+  function adjustH1Font() {
+    const h1 = document.querySelector('h1');
+    if (!h1) return;
+    if (window.innerWidth < 480) {
+      h1.style.fontSize = '1.6rem';  // mobile
+    } else if (window.innerWidth < 768) {
+      h1.style.fontSize = '2rem';    // tablet
+    } else {
+      h1.style.fontSize = '2.5rem';  // desktop
+    }
+  }
+
+  window.addEventListener('resize', adjustH1Font);
+  window.addEventListener('load', adjustH1Font);
+</script>
+
+
+
+
+<!-- //////////// -->
+
+<div id="beatGrid" style="
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+"></div>
+
+<script>
+  const beats = [
+    {
+      image: "https://illpeoplemusic-v2-asserts-dev.s3.ap-south-1.amazonaws.com/beats/user-645200c258beb6fb26ab4378/beat-223483/cover-picture.jpg",
+      title: "Lies",
+      artist: "Juyal Beatz",
+      bpm: "120 BPM",
+      key: "C# Minor",
+      tags: ["RNB", "LOVE", "SOUL"],
+      discount: "50%",
+      price: "₹250"
+    },
+    {
+      image: "https://illpeoplemusic-v2-asserts-dev.s3.ap-south-1.amazonaws.com/beats/user-6841908400406870499ca324/beat-223476/cover-picture.jpg" 
+    ,
+      title: "Dream",
+      artist: "BeatMaster",
+      bpm: "128 BPM",
+      key: "D Minor",
+      tags: ["HIPHOP", "TRAP"],
+      discount: "30%",
+      price: "₹300"
+    },
+    {
+      image:"https://illpeoplemusic-v2-asserts-dev.s3.ap-south-1.amazonaws.com/beats/user-65f478b64f4fa050b86756ce/beat-223478/cover-picture.jpg" ,
+      title: "Rise",
+      artist: "SoundKing",
+      bpm: "110 BPM",
+      key: "A Minor",
+      tags: ["LOFI", "CHILL"],
+      discount: "20%",
+      price: "₹200"
+    },
+    {
+      image:"https://illpeoplemusic-v2-asserts-dev.s3.ap-south-1.amazonaws.com/beats/user-645200c258beb6fb26ab4378/beat-223475/cover-picture.jpg" ,
+      title: "Rise",
+      artist: "SoundKing",
+      bpm: "110 BPM",
+      key: "A Minor",
+      tags: ["LOFI", "CHILL"],
+      discount: "20%",
+      price: "₹200"
+    },
+    {
+      image:"https://illpeoplemusic-v2-asserts-dev.s3.ap-south-1.amazonaws.com/beats/user-645200c258beb6fb26ab4378/beat-223472/cover-picture.jpg" ,
+      title: "Rise",
+      artist: "SoundKing",
+      bpm: "110 BPM",
+      key: "A Minor",
+      tags: ["LOFI", "CHILL"],
+      discount: "20%",
+      price: "₹200"
+    },
+    {
+      image:"https://illpeoplemusic-v2-asserts-dev.s3.ap-south-1.amazonaws.com/beats/user-65a8f2d0b3b848c0ace3c02e/beat-223467/cover-picture.jpg" ,
+      title: "Rise",
+      artist: "SoundKing",
+      bpm: "110 BPM",
+      key: "A Minor",
+      tags: ["LOFI", "CHILL"],
+      discount: "20%",
+      price: "₹200"
+    },
+    {
+      image:"https://illpeoplemusic-v2-asserts-dev.s3.ap-south-1.amazonaws.com/beats/user-68e1303fb731ef010dc141b3/beat-223457/cover-picture.jpg",
+      title: "Rise",
+      artist: "SoundKing",
+      bpm: "110 BPM",
+      key: "A Minor",
+      tags: ["LOFI", "CHILL"],
+      discount: "20%",
+      price: "₹200"
+    },
+    {
+      image:"https://illpeoplemusic-v2-asserts-dev.s3.ap-south-1.amazonaws.com/beats/user-68c74c4e411783467406e20a/beat-223350/cover-picture.jpg",
+      title: "Rise",
+      artist: "SoundKing",
+      bpm: "110 BPM",
+      key: "A Minor",
+      tags: ["LOFI", "CHILL"],
+      discount: "20%",
+      price: "₹200"
+    },
+    {
+      image:"https://illpeoplemusic-v2-asserts-dev.s3.ap-south-1.amazonaws.com/beats/user-6870fdaaad6e62a36f4610c0/beat-223456/cover-picture.png",
+      title: "Rise",
+      artist: "SoundKing",
+      bpm: "110 BPM",
+      key: "A Minor",
+      tags: ["LOFI", "CHILL"],
+      discount: "20%",
+      price: "₹200"
+    },
+    // Add more objects for more beats...
+  ];
+
+  const grid = document.getElementById('beatGrid');
+
+  beats.forEach(beat => {
+    grid.innerHTML += `
+      <div style="
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      ">
+        <div style="position: relative;">
+          <img src="${beat.image}" alt="beat-img" style="width: 100%; height: auto; display: block;">
+          <i class="fa fa-play" style="
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: #fff;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;"></i>
+        </div>
+        <div style="padding: 10px;">
+          <h3 style="margin: 5px 0; font-size: 1.2rem; font-weight: 700; color: #000;">${beat.title}</h3>
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
+            <span style="font-size: 0.9rem; color: #555;">${beat.artist}</span>
+            <img src="./assets/imgs/subs_premium_tick_img.png" alt="verify" style="width: 16px; height: 16px;">
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #333; margin-bottom: 8px;">
+            <span><img src="./assets/imgs/sub-menu/beat-play.png" alt="beat-play" style="width:14px; vertical-align:middle;"> ${beat.bpm}</span>
+            <span><img src="./assets/imgs/sub-menu/audio-icon.png" alt="audio-play" style="width:14px; vertical-align:middle;"> ${beat.key}</span>
+          </div>
+        </div>
+        <div style="padding: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 5px;">
+          <div>
+            ${beat.tags.map(tag => `<span style="background: #eee; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; margin-right: 4px;">${tag}</span>`).join('')}
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="background: #ff4c00; color: #fff; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem;">${beat.discount}</span>
+            <button style="background: #000; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 600; cursor: pointer;">${beat.price}</button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  // Responsive adjustment
+  function adjustGrid() {
+    if (window.innerWidth < 480) {
+      grid.style.gridTemplateColumns = '1fr';
+    } else if (window.innerWidth < 768) {
+      grid.style.gridTemplateColumns = '1fr 1fr';
+    } else {
+      grid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+    }
+  }
+
+  window.addEventListener('resize', adjustGrid);
+  window.addEventListener('load', adjustGrid);
+</script>
+
+
+<!-- //////////// -->
+
+
+
+
+
+<script>
+  function adjustExclusiveFont() {
+    const el = document.getElementById("exclusiveBeats");
+    if (!el) return;
+    if (window.innerWidth < 480) {
+      el.style.fontSize = "1.3rem"; // mobile
+    } else if (window.innerWidth < 768) {
+      el.style.fontSize = "1.7rem"; // tablet
+    } else {
+      el.style.fontSize = "2rem"; // desktop
+    }
+  }
+
+  window.addEventListener("resize", adjustExclusiveFont);
+  window.addEventListener("load", adjustExclusiveFont);
+</script>
+
+
+<script>
+  // Toggle dropdown visibility
+  function toggleDropdown() {
+    const menu = document.getElementById("dropdownMenu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+  }
+
+  // Select dropdown option
+  function selectOption(option) {
+    document.getElementById("selectedOption").textContent = option;
+    document.getElementById("dropdownMenu").style.display = "none";
+  }
+
+  // Close dropdown when clicking outside
+  document.addEventListener("click", function (e) {
+    const dropdown = document.getElementById("dropdownMenu");
+    const button = document.getElementById("dropdownBtn");
+    if (!button.contains(e.target)) {
+      dropdown.style.display = "none";
+    }
+  });
+
+  // Responsive font size for heading
+  function adjustHeadingSize() {
+    const h3 = document.querySelector("h3");
+    if (window.innerWidth < 480) {
+      h3.style.fontSize = "1.5rem";
+    } else if (window.innerWidth < 768) {
+      h3.style.fontSize = "1.8rem";
+    } else {
+      h3.style.fontSize = "2rem";
+    }
+  }
+
+  window.addEventListener("resize", adjustHeadingSize);
+  window.addEventListener("load", adjustHeadingSize);
+
+  function adjustTrendingSize() {
+    const el = document.getElementById("trendingText");
+    if (window.innerWidth < 480) {
+      el.style.fontSize = "1.5rem"; // phones
+    } else if (window.innerWidth < 768) {
+      el.style.fontSize = "1.8rem"; // tablets
+    } else {
+      el.style.fontSize = "2rem"; // desktops
+    }
+  }
+
+  window.addEventListener("resize", adjustTrendingSize);
+  window.addEventListener("load", adjustTrendingSize);
+
+
+   function adjustWavFont() {
+    const el = document.getElementById("wavPrice");
+    if (window.innerWidth < 480) {
+      el.style.fontSize = "1.4rem"; // mobile
+    } else if (window.innerWidth < 768) {
+      el.style.fontSize = "1.7rem"; // tablet
+    } else {
+      el.style.fontSize = "2rem"; // desktop
+    }
+  }
+
+  window.addEventListener("resize", adjustWavFont);
+  window.addEventListener("load", adjustWavFont);
+</script>
+
+</body>
+</html>
